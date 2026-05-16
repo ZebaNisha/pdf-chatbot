@@ -3,9 +3,7 @@ import hashlib
 import threading
 from typing import Any, Dict, List, Optional, Tuple
 
-import torch
 import structlog
-from sentence_transformers import SentenceTransformer
 
 from app.core.config import get_settings
 from app.schemas.chunk import DocumentChunk
@@ -35,6 +33,7 @@ class EmbeddingService:
         if not hasattr(self, "initialized"):
             self.batch_size = batch_size
             self.model_name = settings.EMBEDDING_MODEL
+            import torch
             self.device = "cuda" if torch.cuda.is_available() else "cpu"
             self.cache: Dict[str, List[float]] = {}  # content_hash -> embedding
             self.initialized = True
@@ -52,6 +51,7 @@ class EmbeddingService:
             try:
                 # Use a local lock to prevent multiple threads from loading simultaneously
                 with self._lock:
+                    from sentence_transformers import SentenceTransformer
                     if self._model is None:
                         self._model = SentenceTransformer(self.model_name, device=self.device)
                 logger.info("loading_embedding_model_complete")

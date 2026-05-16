@@ -1,15 +1,12 @@
-print("DEBUG: 1. Core imports")
+import asyncio
 import traceback
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
-print("DEBUG: 2. FastAPI imports")
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import ValidationError
 
-print("DEBUG: 3. App component imports")
 from app.api.routes import auth, documents, health, chat
 from app.core.config import get_settings
 from app.core.logging import get_logger, setup_logging
@@ -17,11 +14,10 @@ from app.core.qdrant import init_qdrant
 from app.db.base import Base
 from app.db.session import engine
 
-print("DEBUG: 4. Settings initialization")
 # Load configuration early
 settings = get_settings()
-print("DEBUG: 5. Imports complete")
 
+@asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """
     Application lifespan manager.
