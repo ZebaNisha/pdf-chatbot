@@ -13,7 +13,7 @@ interface Props {
  * Intelligent citation grouping and rendering.
  * Groups multiple page references from the same document.
  */
-const CitationList: React.FC<Props> = ({ citations }) => {
+const CitationList: React.FC<Props> = ({ citations, onCitationClick }) => {
   // Group by document_id
   const grouped = citations.reduce((acc, curr) => {
     if (!acc[curr.document_id]) {
