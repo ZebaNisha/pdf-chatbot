@@ -52,8 +52,8 @@ export interface Document {
 export interface Citation {
   document_id: string;
   document_title?: string;
-  start_page: int;
-  end_page: int;
+  start_page: number;
+  end_page: number;
   chunk_id: string;
 }
 
