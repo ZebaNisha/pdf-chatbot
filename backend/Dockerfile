@@ -28,4 +28,4 @@ COPY . .
 EXPOSE 8000
 
 # Start supervisor to run both API and Celery
-CMD ["/usr/bin/supervisord", "-c", "/app/supervisord.conf"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
